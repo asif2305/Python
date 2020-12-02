@@ -3,7 +3,7 @@ import numpy as np
 import face_recognition
 
 # load the image
-demoImg = face_recognition.load_image_file('Image/asif.jpg')
+demoImg = face_recognition.load_image_file('Image/ahmed.jpg')
 demoImg = cv2.cvtColor(demoImg, cv2.COLOR_BGR2RGB)
 
 demoTest = face_recognition.load_image_file('Image/ahmed.jpg')
