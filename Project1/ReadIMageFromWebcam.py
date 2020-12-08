@@ -78,16 +78,32 @@ cv2.putText(imgShape, "OPENCV", (300, 500), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 1
 # chapter 5: warp prespective
 
 imgWarp = cv2.imread("Image/card.jpg")
-cv2.imshow("Card Image", imgWarp)
+#cv2.imshow("Card Image", imgWarp)
 
 # define four corner of the card
-width, height = 250, 450
-pts1 = np.float32([[111, 219], [287, 188], [154, 482], [352, 440]])
+width, height = 250, 350
+pts1 = np.float32([[824, 64], [1189, 205], [595, 660], [986, 804]])
 pts2 = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
+
+# put point
+for x in range(0,4):
+    cv2.circle(imgWarp,(pts1[x][0],pts1[x][1]),5,(0,0,255),cv2.FILLED)
+
 matrix = cv2.getPerspectiveTransform(pts1, pts2)
 imgOutput = cv2.warpPerspective(imgWarp, matrix, (width, height))
 
-cv2.imshow("Card Image", imgWarp)
-cv2.imshow("Card Image Output", imgOutput)
+#cv2.imshow("Card Image", imgWarp)
+#cv2.imshow("Card Image Output", imgOutput)
+#  chapter 6:join image together
+
+imgT=cv2.imread("Image/lena.jpg")
+imgHor=np.hstack((imgT,imgT))
+imgVer=np.vstack((imgT,imgT))
+cv2.imshow("Horizontal",imgHor)
+cv2.imshow("Vertical",imgVer)
+
+# Chapter 7:Color Detection
+
+
 
 cv2.waitKey(0)
