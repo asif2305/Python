@@ -78,7 +78,7 @@ cv2.putText(imgShape, "OPENCV", (300, 500), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 1
 # chapter 5: warp prespective
 
 imgWarp = cv2.imread("Image/card.jpg")
-#cv2.imshow("Card Image", imgWarp)
+# cv2.imshow("Card Image", imgWarp)
 
 # define four corner of the card
 width, height = 250, 350
@@ -86,24 +86,63 @@ pts1 = np.float32([[824, 64], [1189, 205], [595, 660], [986, 804]])
 pts2 = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
 
 # put point
-for x in range(0,4):
-    cv2.circle(imgWarp,(pts1[x][0],pts1[x][1]),5,(0,0,255),cv2.FILLED)
+for x in range(0, 4):
+    cv2.circle(imgWarp, (pts1[x][0], pts1[x][1]), 5, (0, 0, 255), cv2.FILLED)
 
 matrix = cv2.getPerspectiveTransform(pts1, pts2)
 imgOutput = cv2.warpPerspective(imgWarp, matrix, (width, height))
 
-#cv2.imshow("Card Image", imgWarp)
-#cv2.imshow("Card Image Output", imgOutput)
+
+# cv2.imshow("Card Image", imgWarp)
+# cv2.imshow("Card Image Output", imgOutput)
 #  chapter 6:join image together
 
-imgT=cv2.imread("Image/lena.jpg")
-imgHor=np.hstack((imgT,imgT))
-imgVer=np.vstack((imgT,imgT))
-cv2.imshow("Horizontal",imgHor)
-cv2.imshow("Vertical",imgVer)
+# imgT=cv2.imread("Image/lena.jpg")
+# imgHor=np.hstack((imgT,imgT))
+# imgVer=np.vstack((imgT,imgT))
+# cv2.imshow("Horizontal",imgHor)
+# cv2.imshow("Vertical",imgVer)
 
 # Chapter 7:Color Detection
 
+def empty():
+    pass
+
+
+# track bar
+
+cv2.namedWindow("TrackBars")
+cv2.resizeWindow("TrackBars", 640, 240)
+cv2.createTrackbar("Hue Min", "TrackBars", 0, 179, empty)
+cv2.createTrackbar("Hue Max", "TrackBars", 19, 179, empty)
+cv2.createTrackbar("Sat Min", "TrackBars", 110, 255, empty)
+cv2.createTrackbar("Sat Max", "TrackBars", 240, 255, empty)
+cv2.createTrackbar("Val Min", "TrackBars", 255, 255, empty)
+cv2.createTrackbar("Val Max", "TrackBars", 255, 255, empty)
+
+path = 'Image/lambo.jpg'
+while True:
+    img = cv2.imread(path)
+    imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h_min = cv2.getTrackbarPos("Hue Min", "TrackBars")
+    h_max = cv2.getTrackbarPos("Hue Max", "TrackBars")
+    s_min = cv2.getTrackbarPos("Sat Min", "TrackBars")
+    s_max = cv2.getTrackbarPos("Sat Max", "TrackBars")
+    v_min = cv2.getTrackbarPos("Val Min", "TrackBars")
+    v_max = cv2.getTrackbarPos("Val Max", "TrackBars")
+
+    lower=np.array([h_min,s_min,v_min])
+    upper=np.array([h_max,s_max,v_max])
+
+    mask=cv2.inRange(imgHSV,lower,upper)
+    imgResult=cv2.bitwise_and(img,img,mask=mask)
+
+    cv2.imshow("Original", img)
+    cv2.imshow('HSV', imgHSV)
+    cv2.imshow('mask', mask)
+    cv2.imshow('mask', imgResult)
+
+    cv2.waitKey(1)
 
 
 cv2.waitKey(0)
