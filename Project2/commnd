@@ -1,0 +1,4 @@
+packge:
+1:Speech recognition ->pip install SpeechRecognition
+2.python pyttsx3 ->pip install pyttsx3
+3.Pyaudio ->pip install PyAudio
